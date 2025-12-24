@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Women Safety – Driver Verification</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    background: white;
+    width: 380px;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+    text-align: center;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.info-box {
+    background: #f7f7f7;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: left;
+}
+
+.info-box p {
+    margin: 8px 0;
+    font-size: 15px;
+}
+
+.status {
+    margin: 12px 0;
+    font-weight: bold;
+}
+
+.verified {
+    color: #2ecc71;
+}
+
+.not-verified {
+    color: #e74c3c;
+}
+
+.unauthorized {
+    background: #ffe6e6;
+    color: #b30000;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+.sos-btn {
+    background: linear-gradient(135deg, #ff0000, #ff4d4d);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(255,0,0,0.4);
+}
+
+.sos-btn:disabled {
+    background: gray;
+    cursor: not-allowed;
+}
+
+.footer {
+    margin-top: 15px;
+    font-size: 12px;
+    color: #888;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="title">🚖 Driver Verification</div>
+<div class="subtitle">Women Safety & Emergency Support</div>
+
+<div class="info-box">
+    <p><b>👤 Name:</b> {{ name }}</p>
+    <p><b>🚘 Auto Number:</b> {{ auto }}</p>
+    <p><b>📞 Phone:</b> {{ phone }}</p>
+</div>
+
+{% if verified %}
+    <div class="status verified">✔ Verified & Safe Driver</div>
+
+    <!-- MANUAL SOS FOR VERIFIED -->
+    <a href="sms:7207216714?body=EMERGENCY!%0ADriver Name: {{ name }}%0AAuto Number: {{ auto }}%0ADriver Phone: {{ phone }}">
+        <button class="sos-btn">🚨 SEND SOS</button>
+    </a>
+
+{% else %}
+    <div class="status not-verified">✖ Unverified Driver</div>
+    <div class="unauthorized">🚨 UNAUTHORIZED DRIVER DETECTED</div>
+
+    <!-- AUTO SOS FOR UNVERIFIED -->
+    <script>
+        window.onload = function () {
+            setTimeout(function () {
+                window.location.href =
+                "sms:7207216714?body=UNAUTHORIZED DRIVER ALERT!%0ADriver Name: {{ name }}%0AAuto Number: {{ auto }}%0ADriver Phone: {{ phone }}";
+            }, 1500);
+        }
+    </script>
+
+    <button class="sos-btn" disabled>🚨 SOS SENT AUTOMATICALLY</button>
+{% endif %}
+
+<div class="footer">
+    Emergency response • QR-based safety system
+</div>
+
+</div>
+
+</body>
+</html>
